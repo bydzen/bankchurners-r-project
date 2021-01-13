@@ -148,3 +148,31 @@ head(BCclear)
 row.names(BCclear) <- BCclear$CLIENTNUM
 BCclear_matrix <- data.matrix(BCclear)
 BCclear_heatmap <- heatmap(BCclear_matrix, Rowv=NA, Colv=NA, col = heat.colors(256), scale="column", margins=c(5,10))
+
+#### Mengetahui Karakteristik Attrition Customer Dari Berbagai Kolom Variabel ####
+BC <- read.csv("BankChurners.csv")
+View(BC)
+
+table(BC$Attrition_Flag)
+table(BC$Customer_Age)
+
+install.packages("gmodels")
+library(gmodels)
+
+summary(BC$Customer_Age)
+BC$Customer_Age_Category <- cut(BC$Customer_Age, breaks = c(23, 40, 60, 70, 73), labels = c("Younger", "Young", "Old", "Older"))
+CrossTable(BC$Attrition_Flag, BC$Customer_Age_Category)
+
+summary(BC$Months_on_book)
+BC$Months_on_book_Category <- cut(BC$Months_on_book, breaks = c(13, 26, 36, 56), labels = c("Short", "Medium", "Long"))
+CrossTable(BC$Attrition_Flag, BC$Months_on_book_Category)
+
+CrossTable(BC$Attrition_Flag, BC$Income_Category)
+CrossTable(BC$Attrition_Flag, BC$Education_Level)
+CrossTable(BC$Attrition_Flag, BC$Gender)
+CrossTable(BC$Attrition_Flag, BC$Marital_Status)
+CrossTable(BC$Attrition_Flag, BC$Card_Category)
+
+summary(BC$Months_Inactive_12_mon)
+BC$Months_Inactive_12_mon_Cat <- cut(BC$Months_Inactive_12_mon, breaks = c(0, 2, 4, 6), labels = c("0 - 2 Months", "2 - 4 Months", "4 - 6 Months"))
+CrossTable(BC$Attrition_Flag, BC$Months_Inactive_12_mon_Cat)
